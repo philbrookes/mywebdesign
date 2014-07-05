@@ -1,0 +1,30 @@
+<?php
+    $errors = \Request::popErrorMessages();
+    if(sizeof($errors)){
+        foreach($errors as $error){
+            ?>
+            <h4 class="error"><?php echo $error; ?></h4>
+            <?php
+        }
+    }
+    ?>
+<ul class="menu">
+    <li class="grid_4x1 blue">
+        <a href="<?php echo \Router::ControllerUrl(
+        "Controller\Customer::createForm"
+        ); ?>">Create customer</a>
+    </li>
+    <?php foreach($this->admins as $admin){ ?>
+    <li class="grid_3x1 green">
+        <a href="<?php echo \Router::ControllerUrl(
+                "Controller\Admin::editForm",
+                array("id" => $admin->id)
+            ); ?>"><?php echo $admin->username; ?></a>
+    </li>
+    <li class="grid_1x1 red"><a href="<?php echo \Router::ControllerUrl(
+                "Controller\Admin::deleteAdmin"
+                , array("id" => $admin->id)
+            ); ?>">delete</a>
+    </li>
+    <?php } ?>
+</ul>

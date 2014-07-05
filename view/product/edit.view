@@ -1,0 +1,59 @@
+<form 
+    action="<?php echo \Router::controllerUrl(
+        $this->formHandler
+        , array("id" => $this->product->id)
+    ); ?>"
+    method="POST"
+    >
+    <h2><?php echo $this->title; ?></h2>
+    <?php
+    $errors = \Request::popErrorMessages();
+    if(sizeof($errors)){
+        foreach($errors as $error){
+            ?>
+            <h4 class="error"><?php echo $error; ?></h4>
+            <?php
+        }
+    }
+    ?>
+    <label>name</label>
+    <input 
+        type="text" 
+        name="name" 
+        placeholder="Product Name" 
+        id="name" 
+        value="<?php echo $this->product->name; ?>" />
+    <label>price (what customer sees)</label>
+    <input 
+        type="text" 
+        name="price" 
+        placeholder="99.99" 
+        id="price" 
+        value="<?php echo $this->product->price; ?>" />
+    <label>cost (what we pay)</label>
+    <input 
+        type="text" 
+        name="cost" 
+        placeholder="99.99" 
+        id="cost" 
+        value="<?php echo $this->product->cost; ?>" />
+    <label>Repeating</label>
+    <select
+        name="repeating"
+        id="repeating" />
+    <?php 
+    for($i=0;$i<=12;$i++){
+        ?>
+        <option value = "<?php echo $i; ?>" 
+            <?php 
+                if($this->product->repeating == $i){ 
+                    echo 'selected="selected"'; 
+                } 
+            ?>><?php echo $this->product->outputRepeating($i); ?></option>
+        <?
+    }?>
+    </select>
+    <input 
+        type="submit"
+        value="apply" />
+</form>

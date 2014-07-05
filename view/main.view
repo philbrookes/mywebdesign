@@ -1,0 +1,28 @@
+<html ng-app="mywebdesign-app">
+    <head>
+        <link href="/style/foundation.min.css" rel="stylesheet" type="text/css" />
+        <link href="/style/style.css" rel="stylesheet" type="text/css" />
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
+        <script src="/jscripts/app.js"></script>
+        <title><?php echo $this->title; ?></title>
+        <meta 
+            name="viewport" 
+            content="width=610" />
+    </head>
+    <body>
+        <div class="row">
+            <div class="large-12">
+                <div class="row">
+                    <div class="large-6 large-offset-3">
+                        <div id="flash" class="alert-box alert" ng-show="flash">
+                            {{ flash }}
+                        </div>
+                    </div>
+                </div>
+                <div id="view" ng-view></div>
+            </div>
+        </div>
+    </body>
+</html>

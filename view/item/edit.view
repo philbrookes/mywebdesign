@@ -1,0 +1,49 @@
+<form 
+    action="<?php echo \Router::controllerUrl(
+        $this->handler
+        , array("customer_id" => $this->customer->id)
+    ); ?>"
+    method="POST"
+    >
+    <h2><?php echo $this->title; ?></h2>
+    <?php
+    $errors = \Request::popErrorMessages();
+    if(sizeof($errors)){
+        foreach($errors as $error){
+            ?>
+            <h4 class="error"><?php echo $error; ?></h4>
+            <?php
+        }
+    }
+    ?>
+    <label>name</label>
+    <input type="hidden" name="customer_id" value="<?php echo $this->customer->id; ?>" />
+    <input 
+        type="text" 
+        name="name" 
+        placeholder="Product Name" 
+        id="name" 
+        value="<?php echo $this->item->name; ?>" />
+    <label>Product</label>
+    <select name="product_id" id="product_id">
+    <?php 
+    foreach($this->item->getAllProducts() as $product){
+        ?>
+        <option value="<?php echo $product->id;?>" <?php
+        if($product->id == $this->item->product_id){
+            echo 'selected="selected"';
+        }
+        ?>><?php echo $product->name; ?></option>
+        <?php
+    }?>
+    </select>
+    <input 
+        type="date" 
+        name="next_bill_date" 
+        placeholder="YYYY-MM-DD" 
+        id="next_bill_date" 
+        value="<?php echo $this->item->getBillDate("Y-m-d"); ?>" />
+    <input 
+        type="submit"
+        value="apply" />
+</form>

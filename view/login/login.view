@@ -1,0 +1,11 @@
+<form method="post">
+    <h3>Username</h3>
+    <input type="text" id="username" name="username"/> 
+    <h3>Password</h3>
+    <input type="password" id="password" name="password"/>
+    <br />
+    <? if(strlen($this->result)) { ?>
+    <p><? echo $this->result; ?></p>
+    <? } ?>
+    <input type="submit" id="login" name="login" value="login"/> 
+</form>

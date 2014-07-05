@@ -1,0 +1,22 @@
+<li class="grid_3x1 green">
+    <p>
+        <?php if($this->invoice->paid_date == "0000-00-00 00:00:00") { ?>
+        &euro;<?php echo $this->invoice->getTotal(); ?>
+        due on: <?php echo $this->invoice->getDueDate("Y-m-d"); ?>
+        <?php } else { ?>
+        &euro;<?php echo $this->invoice->getTotal(); ?>
+        paid on: <?php echo $this->invoice->getPaidDate("Y-m-d"); ?>
+        <?php } ?>
+    </p>
+</li>
+<li class="grid_1x1 red">
+    <a href="<?php 
+    echo \Router::controllerUrl(
+        "Controller\Invoice::viewInvoice", 
+        array(
+            "customer_id" => $this->invoice->getCustomer()->id,
+            "invoice_id" => $this->invoice->id
+        )
+    );
+    ?>">Delete</a>
+</li>

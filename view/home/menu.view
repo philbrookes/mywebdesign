@@ -1,0 +1,5 @@
+<ul class="menu">
+    <li class="grid_4x1 red"><a href="<?php echo \Router::controllerUrl("Controller\Admin::listAdmin"); ?>">Admins</a></li>
+    <li class="grid_4x1 green"><a href="<?php echo \Router::controllerUrl("Controller\Customer::listCustomer"); ?>">Customers</a></li>
+    <li class="grid_4x1 blue"><a href="<?php echo \Router::controllerUrl("Controller\Product::listProduct"); ?>">Products</a></li>
+</ul>

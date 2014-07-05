@@ -1,0 +1,2 @@
+<h1>404</h1>
+<h2>The request <?php echo $this->method; ?> <?php echo $this->request; ?> could not be completed.</h2>

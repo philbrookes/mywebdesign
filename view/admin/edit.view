@@ -1,0 +1,50 @@
+<form 
+    action="<?php echo \Router::controllerUrl(
+        $this->formHandler
+        , array("id" => $this->admin->id)
+    ); ?>"
+    method="POST"
+    >
+    <h2><?php echo $this->title; ?></h2>
+    <?php
+    $errors = \Request::popErrorMessages();
+    if(sizeof($errors)){
+        foreach($errors as $error){
+            ?>
+            <h4 class="error"><?php echo $error; ?></h4>
+            <?php
+        }
+    }
+    ?>
+    <label>Username</label>
+    <input 
+        type="text" 
+        name="username" 
+        placeholder="username" 
+        id="username" 
+        value="<?php echo $this->admin->username; ?>" />
+    <label>Email</label>
+    <input 
+        type="text"
+        name="email"
+        placeholder="email"
+        id="email"
+        value="<?php echo $this->admin->email; ?>" />
+    <label>Password</label>
+    <input 
+        type="password"
+        name="password"
+        placeholder="password"
+        id="password"
+        value="" />
+    <label>Confirm Password</label>
+    <input 
+        type="password"
+        name="confirmPassword"
+        placeholder="confirm password"
+        id="confirm-password"
+        value="" />
+    <input 
+        type="submit"
+        value="apply" />
+</form>

@@ -1,0 +1,35 @@
+<?php
+    $errors = \Request::popErrorMessages();
+    if(sizeof($errors)){
+        foreach($errors as $error){
+            ?>
+            <h4 class="error"><?php echo $error; ?></h4>
+            <?php
+        }
+    }
+    ?>
+<ul class="menu">
+    <li class="grid_4x1 blue">
+        <a href="<?php echo \Router::ControllerUrl(
+        "Controller\Customer::createForm"
+        ); ?>">Create customer</a>
+    </li>
+    <?php foreach($this->customers as $customer){ ?>
+    <li class="grid_2x1 green">
+        <a href="<?php echo \Router::ControllerUrl(
+                "Controller\Customer::viewCustomer"
+                , array("id" => $customer->id)
+            ); ?>"><?php echo $customer->first_name . " " . $customer->last_name; ?></a>
+    </li>
+    <li class="grid_1x1 blue"><a href="<?php echo \Router::ControllerUrl(
+                "Controller\Customer::editForm",
+                array("id" => $customer->id)
+            ); ?>">edit</a>
+    </li>
+    <li class="grid_1x1 red"><a href="<?php echo \Router::ControllerUrl(
+                "Controller\Customer::deleteCustomer"
+                , array("id" => $customer->id)
+            ); ?>">delete</a>
+    </li>
+    <?php } ?>
+</ul>

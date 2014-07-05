@@ -1,0 +1,52 @@
+<div id="customer-details">
+    <?php
+    $errors = \Request::popErrorMessages();
+    if(sizeof($errors)){
+        foreach($errors as $error){
+            ?>
+            <h4 class="error"><?php echo $error; ?></h4>
+            <?php
+        }
+    }
+    ?>
+    <h3><?php echo $this->customer->first_name . " " . $this->customer->last_name; ?></h3>
+    <p>e-mail: <?php echo $this->customer->email; ?></p>
+    <h4>Items:</h4>
+    <ul class="menu">
+        <li class="grid_4x1 blue"><a href="<?php 
+        echo \Router::controllerUrl(
+            "Controller\Item::createForm"
+            , array("customer_id"=>$this->customer->id)
+        ); ?>">Add item for this customer</a></li>
+    <?php 
+    $items = $this->customer->getItems();
+    foreach($items as $item){
+        $view = new \Output\View("customer/item");
+        $view->item = $item;
+        echo $view->render();
+    }?>
+    </ul>
+    <div class="clearfix"></div>
+    <h4>Unpaid invoices:</h4>
+    <ul class="menu">
+    <?php 
+    $invoices = $this->customer->getUnpaidInvoices();
+    foreach($invoices as $invoice){
+        $view = new \Output\View("customer/invoice");
+        $view->invoice = $invoice;
+        echo $view->render();
+    }?>
+    </ul>
+    <div class="clearfix"></div>
+    <h4>Paid invoices:</h4>
+    <ul class="menu">
+    <?php 
+    $invoices = $this->customer->getPaidInvoices();
+    foreach($invoices as $invoice){
+        $view = new \Output\View("customer/invoice");
+        $view->invoice = $invoice;
+        echo $view->render();
+    }?>
+    </ul>
+    <div class="clearfix"></div>
+</div>
