@@ -1,12 +1,16 @@
 <form ng-submit="apply()">
-    <h2>Edit {{admin.username}}</h2>
+    <h2>Edit Admin</h2>
     <label>Username</label>
-    <input type="text" name="username" placeholder="username" id="username" ng-model="admin.username" />
+    <input type="text" name="username" placeholder="username" id="username" 
+           ng-model="admin.username" />
     <label>Email</label>
-    <input type="text" name="email" placeholder="email" id="email" ng-model="admin.email" />
+    <input type="text" name="email" placeholder="email" id="email" 
+           ng-model="admin.email" />
     <label>Password</label>
-    <input type="password" name="password" placeholder="password" id="password" ng-model="admin.password"/>
+    <input type="password" name="password" placeholder="password" id="password" 
+           ng-model="admin.password"/>
     <label>Confirm Password</label>
-    <input type="password" name="confirmPassword" placeholder="confirm password" id="confirm-password" />
+    <input type="password" name="confirmPassword" placeholder="confirm password" id="confirm-password" 
+           ng-model="admin.confirm_password"  />
     <input type="submit" value="apply" />
 </form>

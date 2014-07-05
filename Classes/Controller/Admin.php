@@ -29,9 +29,23 @@ class Admin extends AbAuthController{
     
     public function editAdmin(\Request $req, \Response $res) {
         $admin = new \Model\Admin($req->param("id"));
-        $admin = $this->_populateAdminFromRequest($admin, $req, "Controller\\Admin::editForm");
+        if($req->password != $req->confirm_password){
+            $res->Json(array("flash" => "passwords must match!"), 500);
+            return;
+        }
+        if(! $admin->checkUsername($req->username) ){
+            $res->Json(array("flash" => "username taken"), 500);
+            return;
+        }
+        $admin->username = $req->username;
+        $admin->email = $req->email;
+        
+        if(strlen($req->password)){
+            $admin->password = crypt($req->password);
+        }
+        
         $admin->write();
-        header("location: " . \Router::controllerUrl("Controller\Admin::listAdmin"));
+        $res->Json($admin->toArray(array("password")));
     }
     
     public function createAdmin(\Request $req, \Response $res) {

@@ -43,6 +43,7 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
                 FlashService.show(response.data.flash);
                 $location.path("/login");
             } else {
+                FlashService.show(response.data.flash);
                 $q.reject(response);
             }
         };
@@ -104,7 +105,19 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
 .controller("adminController", function($scope, admins){
     $scope.admins = admins.data;
 })
-.controller("editAdminController", function($scope, admin){
+.controller("editAdminController", function($scope, $http, $location, admin, FlashService){
     $scope.admin = admin.data;
+    $scope.apply = function(){
+        $http.post("/admin/" + $scope.admin.id, $scope.admin)
+            .success(function(data){
+                console.log(data);
+                FlashService.clear();
+                $location.path("/admins");
+            })
+            .error(function(data){
+                console.log(data);
+                FlashService.show(data.flash);
+            })
+    }
 });
 
