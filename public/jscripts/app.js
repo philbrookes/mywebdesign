@@ -22,7 +22,7 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
         }
     });
     $routeProvider.when("/admin/edit/:id", {
-        templateUrl: "/templates/editadmin.html",
+        templateUrl: "/templates/editAdmin.html",
         controller: "editAdminController",
         resolve: {
             "admin": function($route, $http){
@@ -31,9 +31,42 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
         }
     });
     $routeProvider.when("/admin/create", {
-        templateUrl: "/templates/editadmin.html",
+        templateUrl: "/templates/editAdmin.html",
         controller: "createAdminController"
     });
+    
+    $routeProvider.when("/customers", {
+        templateUrl: "/templates/listCustomers.html",
+        controller: "customerController",
+        resolve: {
+            "customers": function($http){
+                return $http.get("/customers");
+            }
+        }
+    });
+    $routeProvider.when("/customer/create", {
+        templateUrl: "/templates/editCustomer.html",
+        controller: "createCustomerController"
+    });
+    $routeProvider.when("/customer/:id", {
+        templateUrl: "/templates/viewCustomer.html",
+        controller: "viewCustomerController",
+        resolve: {
+            "customer": function($route, $http){
+                return $http.get("/customer/" + $route.current.params.id);
+            }
+        }
+    });
+    $routeProvider.when("/customer/edit/:id", {
+        templateUrl: "/templates/editCustomer.html",
+        controller: "editCustomerController",
+        resolve: {
+            "customer": function($route, $http){
+                return $http.get("/customer/" + $route.current.params.id);
+            }
+        }
+    });
+    
     $routeProvider.otherwise({ redirectTo: '/'});
 })
 .config(function($httpProvider){
@@ -106,11 +139,11 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
 .controller("HomeController", function($scope, links){
     $scope.links = links.data;
 })
-.controller("adminController", function($scope, $http, $location, admins){
+.controller("adminController", function($scope, $http, $route, admins){
     $scope.admins = admins.data;
     $scope.delete = function(admin){
         $http.get("/admin/delete/" + admin.id).success(function(){
-            $location.path("/admins");
+            $route.reload();
         });
     };
 })
@@ -139,5 +172,45 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
                 FlashService.show(data.flash);
             })
     }
+})
+.controller("customerController", function($scope, $http, $route, customers){
+    $scope.customers = customers.data;
+    $scope.delete = function(customer){
+        $http.get("/customer/delete/" + customer.id).success(function(){
+            $route.reload();
+        });
+    };
+})
+.controller("createCustomerController", function($scope, $http, $location, FlashService){
+    $scope.customer = {};
+    $scope.apply = function(){
+        $http.post("/customer", $scope.customer)
+            .success(function(data){
+                console.log(data);
+                FlashService.clear();
+                $location.path("/customers");
+            })
+            .error(function(data){
+                console.log(data);
+                FlashService.show(data.flash);
+            })
+    }
+})
+.controller("editCustomerController", function($scope, $http, $location, customer, FlashService){
+    $scope.customer = customer.data;
+    $scope.apply = function(){
+        $http.post("/customer/" + $scope.customer.id, $scope.customer)
+            .success(function(data){
+                FlashService.clear();
+                $location.path("/customers");
+            })
+            .error(function(data){
+                FlashService.show(data.flash);
+            })
+    }
+})
+.controller("viewCustomerController", function($scope, $location, customer){
+    console.log(customer);
+    $scope.customer = customer.data;
 });
 

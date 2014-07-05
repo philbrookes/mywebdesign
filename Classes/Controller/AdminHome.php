@@ -15,7 +15,7 @@ class AdminHome extends \Controller\AbAuthController{
     public function getLinks(\Request $req, \Response $res){
         $links = array(
             array("name" => "Admins", "url" => \Router::controllerUrl("Controller\Admin::getAdmins")),
-            array("name" => "Customers", "url" => \Router::controllerUrl("Controller\Customer::listCustomer")),
+            array("name" => "Customers", "url" => \Router::controllerUrl("Controller\Customer::getCustomers")),
             array("name" => "Products", "url" => \Router::controllerUrl("Controller\Product::listProduct"))
         );
         $res->Json($links);

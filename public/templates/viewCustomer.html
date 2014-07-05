@@ -1,0 +1,20 @@
+<div class="large-12 expanded">
+    <h3 class="large-10 large-offset-2 columns">{{customer.first_name}} {{customer.last_name}}</h3>
+    <p  class="small-10 small-offset-2 columns">e-mail: {{customer.email}}</p>
+    <h4 class="small-10 small-offset-2 columns">Items:</h4>
+    <a class="small-8 small-offset-2 columns" ng-href="/item/create">Create item</a>
+    <div class="small-9 small-offset-3 columns" ng-repeat="item in customer.items">
+        <a class="button small-7 columns" ng-href="/item/edit/{{item.id}}">{{item.name}}</a>
+        <a class="button small-4 columns" ng-href="/item/delete/{{item.id}}">delete</a>
+    </div>
+    <h4 class="small-10 small-offset-2 columns">Unpaid invoices:</h4>
+    <div class="small-9 small-offset-3 columns" ng-repeat="invoice in customer.invoices.unpaid">
+        <button class="button small-6 columns" ng-click="editItem(invoice)">{{invoice.due_date}}</button>
+        <button class="button small-4 columns" ng-click="deleteItem(invoice)">delete</button>
+    </div>
+    <h4 class="small-10 small-offset-2 columns">Paid invoices:</h4>
+    <div class="small-9 small-offset-3 columns" ng-repeat="invoice in customer.invoices.paid">
+        <button class="button small-6 columns" ng-click="editItem(invoice)">{{invoice.due_date}}</button>
+        <button class="button small-4 columns" ng-click="deleteItem(invoice)">delete</button>
+    </div>
+</div>

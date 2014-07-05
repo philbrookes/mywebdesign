@@ -1,5 +1,6 @@
 <form ng-submit="apply()">
-    <h2>Edit Admin</h2>
+    <h2 ng-show="admin.username">Edit Admin</h2>
+    <h2 ng-hide="admin.username">Create Admin</h2>
     <label>Username</label>
     <input type="text" name="username" placeholder="username" id="username" 
            ng-model="admin.username" />

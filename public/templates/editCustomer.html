@@ -1,0 +1,14 @@
+<form ng-submit="apply()">
+    <h2 ng-show="customer.first_name">Edit Customer</h2>
+    <h2 ng-hide="customer.first_name">Create Customer</h2>
+    <label>First name</label>
+    <input type="text" name="first_name" placeholder="First name" id="first_name" 
+           ng-model="customer.first_name" />
+    <label>Last name</label>
+    <input type="text" name="last_name" placeholder="Last name" id="last_name" 
+           ng-model="customer.last_name" />
+    <label>Email</label>
+    <input type="text" name="email" placeholder="email" id="email" 
+           ng-model="customer.email" />
+    <input type="submit" value="apply" />
+</form>

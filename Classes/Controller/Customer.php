@@ -12,65 +12,58 @@ namespace Controller;
  * @author phil
  */
 class Customer extends AbAuthController{
-    public function viewCustomer(\Request $req, \Response $res){
+    public function getCustomer(\Request $req, \Response $res){
         $customer = new \Model\Customer($req->param("id"));
-        $view = new \Output\View("customer/details");
-        $view->customer = $customer;
-        $res->addView("content", $view);
+        $paidInvoices = $customer->getPaidInvoices();
+        $dueInvoices = $customer->getUnpaidInvoices();
+        
+        $result = $customer->toArray();
+        foreach($customer->getItems() as $item){
+             $resItem = $item->toArray();
+             $resItem['price'] = $item->getProduct()->price;
+             $result['items'][] = $resItem;
+        }
+        foreach($customer->getUnpaidInvoices() as $invoice){
+            $result['invoices']['unpaid'][] = $invoice->toArray();
+        }
+        foreach($customer->getPaidInvoices() as $invoice){
+            $result['invoices']['paid'][] = $invoice->toArray();
+        }
+        
+        $res->Json($result);
     }
     
-    public function listCustomer(\Request $req, \Response $res){
+    public function getCustomers(\Request $req, \Response $res){
         $customer = new \Model\Customer();
         $customers = $customer->fetchAll();
-        $view = new \Output\View("customer/list");
-        $view->customers = $customers;
-        $res->addView("content", $view);
-    }
-    
-    public function editForm(\Request $req, \Response $res) {
-        $customer = new \Model\Customer($req->param("id"));
-        $view = new \Output\View("customer/edit");
-        $view->formHandler = "Controller\Customer::editCustomer";
-        $view->customer = $customer;
-        $view->title = "Edit Customer";
-        $res->addView("content", $view);
+        $result = Array();
+        foreach($customers as $customer){
+            $result[] = $customer->toArray();
+        }
+        $res->Json($result);
     }
     
     public function editCustomer(\Request $req, \Response $res) {
         $customer = new \Model\Customer($req->param("id"));
-        $customer = $this->_populateCustomerFromRequest($customer, $req, "Controller\\Customer::editForm");
+        $customer->first_name = $req->first_name;
+        $customer->last_name = $req->last_name;
+        $customer->email = $req->email;
         $customer->write();
-        header("location: " . \Router::controllerUrl("Controller\Customer::listCustomer"));
-    }
-    
-    public function createForm(\Request $req, \Response $res) {
-        $customer = new \Model\Customer();
-        $view = new \Output\View("customer/edit");
-        $view->formHandler = "Controller\Customer::createCustomer";
-        $view->customer = $customer;
-        $view->title = "Create Customer";
-        $res->addView("content", $view);
+        $res->Json($customer->toArray());
     }
     
     public function createCustomer(\Request $req, \Response $res) {
         $customer = new \Model\Customer();
-        $customer = $this->_populateCustomerFromRequest($customer, $req, "Controller\\Customer::createForm");
+        $customer->first_name = $req->first_name;
+        $customer->last_name = $req->last_name;
+        $customer->email = $req->email;
         $customer->write();
-        \Response::RedirectTo("Controller\Customer::listCustomer", array(), "Customer created");
+        $res->Json($customer->toArray());
     }
     
     public function deleteCustomer(\Request $req, \Response $res) {
         $customer = new \Model\Customer($req->param("id"));
         $customer->deleteFromDb();
-        \Response::RedirectTo("Controller\Customer::listCustomer", array(), "Customer '{$customer->username}' deleted");
+        $res->Json(array("message" => "customer deleted"));
     }
-    
-    private function _populateCustomerFromRequest(\Model\Customer $customer, \Request $req, $handler) {
-        $customer->first_name = $req->firstname;
-        $customer->last_name = $req->lastname;
-        $customer->email = $req->email;
-        return $customer;
-    }
-    
-    
 }
