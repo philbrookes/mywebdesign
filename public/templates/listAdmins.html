@@ -1,0 +1,5 @@
+<a ng-href="/#/admin/create">Create Admin</a>
+<div ng-repeat="admin in admins" class="row">
+    <a class="button large-6 columns" href="/#/admin/edit/{{ admin.id }}">{{admin.username}}</a>
+    <a class="button large-4 columns" href="/admin/delete/{{admin.id}}">delete</a>
+</div>
