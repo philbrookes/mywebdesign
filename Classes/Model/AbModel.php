@@ -177,7 +177,11 @@ class AbModel {
         return $res;
     }
     
-    public function toArray(){
-        return $this->_fields;
+    public function toArray($excludes = array()){
+        $arr = $this->_fields;
+        foreach($excludes as $exclude){
+            unset($arr[$exclude]);
+        }
+        return $arr;
     }
 }

@@ -1,3 +1,1 @@
-<ul>
-    <li ng-repeat="link in links"><a class="button expand" href="{{ link.url }}">{{ link.name }}</a></li>
-</ul>
+<a ng-repeat="link in links" class="button expand" ng-href="/#{{ link.url }}">{{ link.name }}</a>

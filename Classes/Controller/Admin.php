@@ -12,12 +12,14 @@ namespace Controller;
  * @author phil
  */
 class Admin extends AbAuthController{
-    public function listAdmin(\Request $req, \Response $res){
+    public function getAdmins(\Request $req, \Response $res){
         $admin = new \Model\Admin();
         $admins = $admin->fetchAll();
-        $view = new \Output\View("admin/list");
-        $view->admins = $admins;
-        $res->addView("content", $view);
+        $result = Array();
+        foreach($admins as $admin){
+            $result[] = $admin->toArray(array("password"));
+        }
+        $res->Json($result);
     }
     
     public function editForm(\Request $req, \Response $res) {

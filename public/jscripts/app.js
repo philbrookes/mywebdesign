@@ -12,7 +12,16 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
             }
         }
     });
-    $routeProvider.otherwise({ redirectTo: '/login'});
+    $routeProvider.when("/admins", {
+        templateUrl: "/templates/listAdmins.html",
+        controller: "adminController",
+        resolve: {
+            "admins": function($http){
+                return $http.get("/admins");
+            }
+        }
+    });
+    $routeProvider.otherwise({ redirectTo: '/'});
 })
 .config(function($httpProvider){
     var logsOutUserOn401 = function($location, $q, FlashService){
@@ -87,6 +96,10 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
 .controller("HomeController", function($scope, links){
     console.log(links.data);
     $scope.links = links.data;
-});
+})
 
+.controller("adminController", function($scope, admins){
+    console.log(admins.data);
+    $scope.admins = admins.data;
+});
 
