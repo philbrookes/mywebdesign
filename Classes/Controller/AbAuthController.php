@@ -18,7 +18,7 @@ class AbAuthController extends AbController{
         $auth = new \Authentication\Auth();
 
         if(! $auth->isLoggedIn()){
-            $res->json(array("message" => "You must be logged in to view this resource!"), "401");
+            $res->json(array("flash" => "You must login!"), "401");
         } 
     }
 }

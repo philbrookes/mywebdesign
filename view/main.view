@@ -15,6 +15,11 @@
         <div class="row">
             <div class="large-12">
                 <div class="row">
+                    <a class="large-3 columns button expanded" ng-href="/#/">Home</a>
+                    <div class="large-6 columns text-center">My Web Design</div>
+                    <a class="large-3 columns button expanded" ng-controller="LoginController" ng-click="logout()">Logout</a>
+                </div>
+                <div class="row">
                     <div class="large-6 large-offset-3">
                         <div id="flash" class="alert-box alert" ng-show="flash">
                             {{ flash }}

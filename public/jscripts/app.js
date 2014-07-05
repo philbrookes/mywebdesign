@@ -29,7 +29,7 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
             return response;
         };
         var error = function(response){
-            if(response.status == 401){
+            if(response.status === 401){
                 $q.reject(response);
                 FlashService.show(response.data.flash);
                 $location.path("/login");
@@ -60,9 +60,6 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
         },
         logout: function(){
             return $http.get('/logout');
-        },
-        isLoggedIn: function(){
-            return $http.get('/isLoggedIn');
         }
     }
 })
