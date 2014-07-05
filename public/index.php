@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+xdebug_disable();
 
 session_start();
 
@@ -25,6 +26,6 @@ try{
     echo $response->present();
 }catch(Exception $ex){
     $response = new Response(new Output\View("main"));
-    $response->json($ex, 500);
+    $response->json(array("message" => $ex->getMessage(), "trace" => $ex->getTrace()), 500);
     echo $response->present();
 }

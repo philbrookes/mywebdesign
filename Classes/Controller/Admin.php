@@ -21,14 +21,10 @@ class Admin extends AbAuthController{
         }
         $res->Json($result);
     }
-    
-    public function editForm(\Request $req, \Response $res) {
-        $admin = new \Model\Admin($req->param("id"));
-        $view = new \Output\View("admin/edit");
-        $view->formHandler = "Controller\Admin::editAdmin";
-        $view->admin = $admin;
-        $view->title = "Edit Admin";
-        $res->addView("content", $view);
+    public function getAdmin(\Request $req, \Response $res){
+        $admin = new \Model\Admin();
+        $admin->loadFromDb($req->param('id'));
+        $res->Json($admin->toArray(array("password")));
     }
     
     public function editAdmin(\Request $req, \Response $res) {
@@ -36,15 +32,6 @@ class Admin extends AbAuthController{
         $admin = $this->_populateAdminFromRequest($admin, $req, "Controller\\Admin::editForm");
         $admin->write();
         header("location: " . \Router::controllerUrl("Controller\Admin::listAdmin"));
-    }
-    
-    public function createForm(\Request $req, \Response $res) {
-        $admin = new \Model\Admin();
-        $view = new \Output\View("admin/edit");
-        $view->formHandler = "Controller\Admin::createAdmin";
-        $view->admin = $admin;
-        $view->title = "Create Admin";
-        $res->addView("content", $view);
     }
     
     public function createAdmin(\Request $req, \Response $res) {

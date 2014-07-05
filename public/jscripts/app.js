@@ -21,6 +21,15 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
             }
         }
     });
+    $routeProvider.when("/admin/edit/:id", {
+        templateUrl: "/templates/editadmin.html",
+        controller: "editAdminController",
+        resolve: {
+            "admin": function($route, $http){
+                return $http.get("/admin/" + $route.current.params.id);
+            }
+        }
+    });
     $routeProvider.otherwise({ redirectTo: '/'});
 })
 .config(function($httpProvider){
@@ -89,14 +98,13 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
         });
     }
 })
-
 .controller("HomeController", function($scope, links){
-    console.log(links.data);
     $scope.links = links.data;
 })
-
 .controller("adminController", function($scope, admins){
-    console.log(admins.data);
     $scope.admins = admins.data;
+})
+.controller("editAdminController", function($scope, admin){
+    $scope.admin = admin.data;
 });
 

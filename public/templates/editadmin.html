@@ -1,0 +1,12 @@
+<form ng-submit="apply()">
+    <h2>Edit {{admin.username}}</h2>
+    <label>Username</label>
+    <input type="text" name="username" placeholder="username" id="username" ng-model="admin.username" />
+    <label>Email</label>
+    <input type="text" name="email" placeholder="email" id="email" ng-model="admin.email" />
+    <label>Password</label>
+    <input type="password" name="password" placeholder="password" id="password" ng-model="admin.password"/>
+    <label>Confirm Password</label>
+    <input type="password" name="confirmPassword" placeholder="confirm password" id="confirm-password" />
+    <input type="submit" value="apply" />
+</form>

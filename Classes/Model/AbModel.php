@@ -110,6 +110,10 @@ class AbModel {
         $query->bindValue("id", $id, \PDO::PARAM_INT);
         $query->execute();
         $row = $query->fetch(\PDO::FETCH_ASSOC);
+        if(! is_array($row)){
+            echo "throwing...";
+            throw new \RuntimeException("id must have a value");
+        }
         $this->populateFromArray($row);
     }
     
