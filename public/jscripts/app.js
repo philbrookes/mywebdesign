@@ -30,6 +30,10 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
             }
         }
     });
+    $routeProvider.when("/admin/create", {
+        templateUrl: "/templates/editadmin.html",
+        controller: "createAdminController"
+    });
     $routeProvider.otherwise({ redirectTo: '/'});
 })
 .config(function($httpProvider){
@@ -102,20 +106,36 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
 .controller("HomeController", function($scope, links){
     $scope.links = links.data;
 })
-.controller("adminController", function($scope, admins){
+.controller("adminController", function($scope, $http, $location, admins){
     $scope.admins = admins.data;
+    $scope.delete = function(admin){
+        $http.get("/admin/delete/" + admin.id).success(function(){
+            $location.path("/admins");
+        });
+    };
 })
 .controller("editAdminController", function($scope, $http, $location, admin, FlashService){
     $scope.admin = admin.data;
     $scope.apply = function(){
         $http.post("/admin/" + $scope.admin.id, $scope.admin)
             .success(function(data){
-                console.log(data);
                 FlashService.clear();
                 $location.path("/admins");
             })
             .error(function(data){
-                console.log(data);
+                FlashService.show(data.flash);
+            })
+    }
+})
+.controller("createAdminController", function($scope, $http, $location, FlashService){
+    $scope.admin = {};
+    $scope.apply = function(){
+        $http.post("/admin", $scope.admin)
+            .success(function(data){
+                FlashService.clear();
+                $location.path("/admins");
+            })
+            .error(function(data){
                 FlashService.show(data.flash);
             })
     }
