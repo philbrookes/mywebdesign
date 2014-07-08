@@ -1,0 +1,19 @@
+<form ng-submit="apply()">
+    <h2 ng-show="item.name">Edit Item</h2>
+    <h2 ng-hide="item.name">Add Item</h2>
+    <label>Name</label>
+    <input type="text" name="name" placeholder="Item name" id="name" ng-model="item.name" />
+    <label>Product</label>
+    <select name="product" id="product" placeholder="Product name" ng-model="item.product_id">
+        <option ng-repeat="product in products" value="{{product.id}}">{{product.name}}</option>
+    </select>
+    <label>Next bill date</label>
+    <input 
+        type="date" 
+        name="next_bill_date" 
+        placeholder="yyyy-MM-dd" 
+        id="next_bill_date" 
+        ng-model="item.next_bill_date" 
+    />
+    <input type="submit" value="apply" />
+</form>

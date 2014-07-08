@@ -66,7 +66,22 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
             }
         }
     });
-    
+    $routeProvider.when("/item/edit/:id", {
+        templateUrl: "/templates/editItem.html",
+        controller: "editItemController",
+        resolve: {
+            "item": function($route, $http){
+                return $http.get("/item/" + $route.current.params.id);
+            },
+            "products": function($http){
+                return $http.get("/products");
+            }
+        }
+    });
+    $routeProvider.when("/item/create", {
+        templateUrl: "/templates/editItem.html",
+        controller: "createItemController"
+    });
     $routeProvider.otherwise({ redirectTo: '/'});
 })
 .config(function($httpProvider){
@@ -209,8 +224,37 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
             })
     }
 })
-.controller("viewCustomerController", function($scope, $location, customer){
-    console.log(customer);
+.controller("viewCustomerController", function($scope, customer){
     $scope.customer = customer.data;
+})
+.controller("editItemController", function($scope, $http, $filter, $location, FlashService, item, products){
+    $scope.item = item.data;    
+    //date fields are a pain then, this hacks it up to match what chrome wants
+    $scope.item.next_bill_date =  $filter("date")(item.data.next_bill_date, 'yyyy-MM-dd').split(" ")[0];
+    $scope.products = products.data;
+    $scope.apply = function(){
+        console.log($scope.item);
+        $http.post("/item/edit/" + $scope.item.id, $scope.item)
+            .success(function(){
+                FlashService.clear();
+                $location.path("/customer/" + $scope.item.customer_id);
+            })
+            .error(function(data){
+                FlashService.show(data.flash);
+            })
+    }
+})
+.controller("createItemController", function($scope, $http, $location, FlashService){
+    $scope.item = {};
+    $scope.apply = function(){
+        $http.post("/item", $scope.item)
+            .success(function(data){
+                FlashService.clear();
+                $location.path("/customers");
+            })
+            .error(function(data){
+                console.log(data);
+                FlashService.show(data.flash);
+            })
+    }
 });
-

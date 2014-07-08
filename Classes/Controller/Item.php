@@ -12,15 +12,19 @@ namespace Controller;
  * @author phil
  */
 class Item extends AbAuthController{
-    public function createForm(\Request $req, \Response $res){
-        $customer = new \Model\Customer($req->param("customer_id"));
+    public function getItem(\Request $req, \Response $res){
         $item = new \Model\Item();
-        $view = new \Output\View("item/edit");
-        $view->handler = "Controller\Product::createItem";
-        $view->customer = $customer;
-        $view->item = $item;
-        $view->title = "Create item for " . $customer->getFullName();
-        $res->addView("content", $view);
+        $item->loadFromDb($req->param('id'));
+        $res->Json($item->toArray());
+    }
+    
+    public function editItem(\Request $req, \Response $res){
+        $item = new \Model\Item($req->param("id"));
+        $item->name = $req->name;
+        $item->product_id = $req->product_id;
+        $item->next_bill_date = $req->next_bill_date;
+        $item->write();
+        $res->Json($item->toArray());
     }
     
     public function createItem(\Request $req, \Response $res){
@@ -45,29 +49,6 @@ class Item extends AbAuthController{
             "Controller\Customer::viewCustomer", 
             array("id" => $req->param('customer_id')), 
             "deleted " . $item->name
-        );
-    }
-    
-    public function editForm(\Request $req, \Response $res){
-        $item = new \Model\Item($req->param("item_id"));
-        $customer = new \Model\Customer($req->param("customer_id"));
-        $view = new \Output\View("item/edit");
-        $view->handler = "Controller\Product::editItem";
-        $view->item = $item;
-        $view->customer = $customer;
-        $res->addView("content", $view);
-    }
-    
-    public function editItem(\Request $req, \Response $res){
-        $item = new \Model\Item($req->param("item_id"));
-        $item->name = $req->name;
-        $item->product_id = $req->product_id;
-        $item->next_bill_date = $req->next_bill_date;
-        $item->write();
-        $res->RedirectTo(
-            "Controller\Customer::viewCustomer", 
-            array("id" => $req->param('customer_id')), 
-            $item->name . " edited"
         );
     }
 }
