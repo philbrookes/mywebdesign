@@ -34,11 +34,7 @@ class Item extends AbAuthController{
         $item->product_id = $req->product_id;
         $item->next_bill_date = $req->next_bill_date;
         $item->write();
-        $res->RedirectTo(
-            "Controller\Customer::viewCustomer", 
-            array("id" => $req->param('customer_id')), 
-            "New item created!"
-        );
+        $res->Json($item->toArray());
     }
     
     public function deleteItem(\Request $req, \Response $res){

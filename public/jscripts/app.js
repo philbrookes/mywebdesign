@@ -35,6 +35,30 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
         controller: "createAdminController"
     });
     
+    $routeProvider.when("/customer/:customer_id/item/edit/:id", {
+        templateUrl: "/templates/editItem.html",
+        controller: "editItemController",
+        resolve: {
+            "item": function($route, $http){
+                return $http.get("/item/" + $route.current.params.id);
+            },
+            "products": function($http){
+                return $http.get("/products");
+            }
+        }
+    });
+    $routeProvider.when("/customer/:customer_id/item/create", {
+        templateUrl: "/templates/editItem.html",
+        controller: "createItemController",
+        resolve: {
+            "customer": function($http, $route){
+                return $http.get("/customer/" + $route.current.params.customer_id)
+            },
+            "products": function($http){
+                return $http.get("/products");
+            }
+        }
+    });
     $routeProvider.when("/customers", {
         templateUrl: "/templates/listCustomers.html",
         controller: "customerController",
@@ -65,22 +89,6 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
                 return $http.get("/customer/" + $route.current.params.id);
             }
         }
-    });
-    $routeProvider.when("/item/edit/:id", {
-        templateUrl: "/templates/editItem.html",
-        controller: "editItemController",
-        resolve: {
-            "item": function($route, $http){
-                return $http.get("/item/" + $route.current.params.id);
-            },
-            "products": function($http){
-                return $http.get("/products");
-            }
-        }
-    });
-    $routeProvider.when("/item/create", {
-        templateUrl: "/templates/editItem.html",
-        controller: "createItemController"
     });
     $routeProvider.otherwise({ redirectTo: '/'});
 })
@@ -233,9 +241,9 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
     $scope.item.next_bill_date =  $filter("date")(item.data.next_bill_date, 'yyyy-MM-dd').split(" ")[0];
     $scope.products = products.data;
     $scope.apply = function(){
-        console.log($scope.item);
-        $http.post("/item/edit/" + $scope.item.id, $scope.item)
-            .success(function(){
+        $http.post("/customer/" + $scope.item.customer_id + "/item/edit/" + $scope.item.id, $scope.item)
+            .success(function(data){
+                console.log(data);
                 FlashService.clear();
                 $location.path("/customer/" + $scope.item.customer_id);
             })
@@ -244,13 +252,16 @@ var app = angular.module("mywebdesign-app", ['ngRoute']).config(function($routeP
             })
     }
 })
-.controller("createItemController", function($scope, $http, $location, FlashService){
+.controller("createItemController", function($scope, $http, $location, FlashService, products, customer){
     $scope.item = {};
+    $scope.products = products.data;
+    $scope.customer = customer.data;
     $scope.apply = function(){
+        $scope.item.customer_id = $scope.customer.id;
         $http.post("/item", $scope.item)
             .success(function(data){
                 FlashService.clear();
-                $location.path("/customers");
+                $location.path("/customer/" + $scope.customer.id );
             })
             .error(function(data){
                 console.log(data);

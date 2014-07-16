@@ -79,6 +79,7 @@ class AbModel {
             $query->bindValue($name, $value);
         }
         $query->bindValue("id", $this->_fields[$this->_idField]);
+        pre_print_r($query);
         $query->execute();        
     }
     
