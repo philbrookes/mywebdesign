@@ -12,66 +12,74 @@ namespace Controller;
  * @author phil
  */
 class Admin extends AbAuthController{
-    public function getAdmins(\Request $req, \Response $res){
+    public function listAdmin(\Request $req, \Response $res){
         $admin = new \Model\Admin();
         $admins = $admin->fetchAll();
-        $result = Array();
-        foreach($admins as $admin){
-            $result[] = $admin->toArray(array("password"));
-        }
-        $res->Json($result);
+        $view = new \Output\View("admin/list");
+        $view->admins = $admins;
+        $res->addView("content", $view);
     }
-    public function getAdmin(\Request $req, \Response $res){
-        $admin = new \Model\Admin();
-        $admin->loadFromDb($req->param('id'));
-        $res->Json($admin->toArray(array("password")));
+    
+    public function editForm(\Request $req, \Response $res) {
+        $admin = new \Model\Admin($req->param("id"));
+        $view = new \Output\View("admin/edit");
+        $view->formHandler = "Controller\Admin::editAdmin";
+        $view->admin = $admin;
+        $view->title = "Edit Admin";
+        $res->addView("content", $view);
     }
     
     public function editAdmin(\Request $req, \Response $res) {
         $admin = new \Model\Admin($req->param("id"));
-        if($req->password != $req->confirm_password){
-            $res->Json(array("flash" => "passwords must match!"), 500);
-            return;
-        }
-        if(! $admin->checkUsername($req->username) ){
-            $res->Json(array("flash" => "username taken"), 500);
-            return;
-        }
-        $admin->username = $req->username;
-        $admin->email = $req->email;
-        
-        if(strlen($req->password)){
-            $admin->password = crypt($req->password);
-        }
-        
+        $admin = $this->_populateAdminFromRequest($admin, $req, "Controller\\Admin::editForm");
         $admin->write();
-        $res->Json($admin->toArray(array("password")));
+        header("location: " . \Router::controllerUrl("Controller\Admin::listAdmin"));
+    }
+    
+    public function createForm(\Request $req, \Response $res) {
+        $admin = new \Model\Admin();
+        $view = new \Output\View("admin/edit");
+        $view->formHandler = "Controller\Admin::createAdmin";
+        $view->admin = $admin;
+        $view->title = "Create Admin";
+        $res->addView("content", $view);
     }
     
     public function createAdmin(\Request $req, \Response $res) {
         $admin = new \Model\Admin();
-        if($req->password != $req->confirm_password || ! strlen($req->password)){
-            $res->Json(array("flash" => "passwords must have a value and match!"), 500);
-            return;
-        }
-        if(! $admin->checkUsername($req->username) || ! strlen($req->username)){
-            $res->Json(array("flash" => "invalid username"), 500);
-            return;
-        }
-        $admin->username = $req->username;
-        $admin->email = $req->email;
-        
-        if(strlen($req->password)){
-            $admin->password = crypt($req->password);
-        }
-        
+        $admin = $this->_populateAdminFromRequest($admin, $req, "Controller\\Admin::createForm");
         $admin->write();
-        $res->Json($admin->toArray(array("password")));
+        \Response::RedirectTo("Controller\Admin::listAdmin", array(), "Admin created");
     }
     
     public function deleteAdmin(\Request $req, \Response $res) {
         $admin = new \Model\Admin($req->param("id"));
         $admin->deleteFromDb();
-        $res->Json(array("message" => "Admin successfully deleted"));
+        \Response::RedirectTo("Controller\Admin::listAdmin", array(), "Admin '{$admin->username}' deleted");
     }
+    
+    private function _populateAdminFromRequest(\Model\Admin $admin, \Request $req, $handler) {
+        if(! $admin->checkUsername($req->username)) {
+            \Response::RedirectTo(
+                $handler, 
+                array("id" => $req->param("id")), 
+                "username in use!"
+            );
+        }
+        if(($req->password != "" || $req->confirmPassword != "") && $req->password != $req->confirmPassword){
+            \Response::RedirectTo(
+                $handler, 
+                array("id" => $req->param("id")), 
+                "Password must match confirm password!"
+            );
+        } 
+        
+        $admin->username = $req->username;
+        $admin->email = $req->email;
+        $admin->password = md5($req->password);
+        
+        return $admin;
+    }
+    
+    
 }

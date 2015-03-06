@@ -2,28 +2,25 @@
 namespace Controller;
 
 class Login {
-    public function logout(\Request $req, \Response $res) {
-        $auth = new \Authentication\Auth();
-        $auth->Logout();
-        $res->Json(array("flash" => "logged out successfully"));
-    }
-    
-    public function login(\Request $req, \Response $res) {
-        $auth = new \Authentication\Auth();
-
-        $admin = $auth->Authenticate($req->username, $req->password);
-        if($admin){
-            $res->Json(array("flash" => "login successful"));
-            return;
+    public function LoginForm() {
+        $auth = new \Authentication\Login();
+        $result = "";
+        if(isset($_POST['username']) && isset($_POST['password'])){
+            $result = $auth->Authenticate($_POST['username'], $_POST['password']);
         }
-        $res->Json(array("flash" => "bad username or password"), "401");
-    }
-    
-    public function isLoggedIn(\Request $req, \Response $res){
-        if($_SESSION['admin_id']){
-            $res->Json(array("flash" => "logged in"));
+        if(! $auth->isLoggedIn()){
+            $view = new \Output\View("main");
+            $loginView = new \Output\View("login/login");
+            $loginView->result = $result;
+            $view->content = $loginView;
+            return $view;
         } else {
-            $res->Json(array("flash" => "not logged in"), "401");
+            header("Location: /");
         }
+    }
+    
+    public function logout() {
+        session_destroy();
+        header("Location: /");
     }
 }

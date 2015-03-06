@@ -1,19 +1,12 @@
-body, html {
+body {
     font-family: arial;
-    border: 0;
-    padding: 0;
-    margin: 0;
 }
 
 #content{
-    width: 610px;
+    width: 960px;
     margin: auto;
 }
 
-form {
-    width: 300px;
-    margin: auto;
-}
 form h3 {
     font-size: 15px;
     font-weight: 400;
@@ -49,9 +42,7 @@ table.rows tr td{
     padding: 0;
     border: 0;
 }
-h4{
-    margin-bottom: 4px;
-}
+
 h4.error{
     background-color: #ff5555;
     border: 2px solid #232323;
@@ -83,14 +74,6 @@ ul.menu li.grid_1x1 {
 }
 ul.menu li.grid_2x1 {
     width: 296px;
-    height: 146px;
-}
-ul.menu li.grid_3x1 {
-    width: 446px;
-    height: 146px;
-}
-ul.menu li.grid_4x1 {
-    width: 596px;
     height: 146px;
 }
 ul.menu li.grid_1x2 {
@@ -168,11 +151,7 @@ ul.menu li p{
 ul.menu li.grid_1x1 a, 
 ul.menu li.grid_1x1 p, 
 ul.menu li.grid_2x1 a, 
-ul.menu li.grid_2x1 p, 
-ul.menu li.grid_3x1 a, 
-ul.menu li.grid_3x1 p, 
-ul.menu li.grid_4x1 a, 
-ul.menu li.grid_4x1 p{
+ul.menu li.grid_2x1 p{
     line-height: 150px;
 }
 ul.menu li.grid_1x2 a, 

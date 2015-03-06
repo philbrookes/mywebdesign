@@ -15,11 +15,6 @@ class Request {
     private $_params;
     public function __construct($requestData) {
         $this->req = $requestData;
-        $postdata = file_get_contents("php://input");
-        $data = json_decode($postdata, true);
-        if(sizeof($data)){
-            $this->req = array_merge($this->req, $data);
-        }
     }
     
     public function __get($name) {

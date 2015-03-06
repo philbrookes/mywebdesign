@@ -18,6 +18,6 @@ Registry::add("db", $db);
 
 $admin = new \Model\Admin();
 $admin->username = $user;
-$admin->password = crypt($pass);
+$admin->password = md5($pass);
 $admin->email = $email;
 $admin->write();

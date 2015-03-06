@@ -1,33 +1,34 @@
-<html ng-app="mywebdesign-app">
+<html>
     <head>
-        <link href="/style/foundation.min.css" rel="stylesheet" type="text/css" />
-        <link href="/style/style.css" rel="stylesheet" type="text/css" />
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular-route.min.js"></script>
-        <script src="/jscripts/app.js"></script>
+        <link href="/style/style.css" rel="stylesheet">
+        <?php echo $this->stylesheets; ?>
+        <?php echo $this->scripts; ?>
         <title><?php echo $this->title; ?></title>
         <meta 
             name="viewport" 
             content="width=610" />
     </head>
     <body>
-        <div class="row">
-            <div class="large-12">
-                <div class="row">
-                    <a class="large-3 columns button expanded" ng-href="/#/">Home</a>
-                    <div class="large-6 columns text-center">My Web Design</div>
-                    <a class="large-3 columns button expanded" ng-controller="LoginController" ng-click="logout()">Logout</a>
-                </div>
-                <div class="row">
-                    <div class="large-6 large-offset-3">
-                        <div id="flash" class="alert-box alert" ng-show="flash">
-                            {{ flash }}
-                        </div>
-                    </div>
-                </div>
-                <div id="view" ng-view></div>
-            </div>
+        <div id="content">
+            <ul class="menu">
+                <li class="grid_1x1 grey" >
+                    <a href="<?php echo \Router::controllerUrl("Controller\Home::home"); ?>">
+                    Home
+                    </a>
+                </li>
+                <li class="grid_2x1 white">
+                    <p class="big-text">My Web Design</p>
+                </li>
+                <li class="grid_1x1 grey" >
+                    <a href="<?php echo \Router::controllerUrl("Controller\Login::logout"); ?>">
+                    Log out
+                    </a>
+                </li>
+            </ul>
+            
+            <div class="clearfix"></div>
+            <?php echo $this->content; ?>
+            <div class="clearfix"></div>
         </div>
     </body>
 </html>

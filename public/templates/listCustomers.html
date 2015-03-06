@@ -1,6 +1,0 @@
-<a ng-href="/#/customer/create">Create Customer</a>
-<div ng-repeat="customer in customers" class="row">
-    <a class="button large-6 columns" href="/#/customer/{{ customer.id }}">{{customer.first_name}} {{customer.last_name}}</a>
-    <a class="button large-offset-1 large-2 columns" href="/#/customer/edit/{{ customer.id }}">edit</a>
-    <button class="button large-2 columns" ng-click="delete(customer)">delete</button>
-</div>

@@ -79,7 +79,6 @@ class AbModel {
             $query->bindValue($name, $value);
         }
         $query->bindValue("id", $this->_fields[$this->_idField]);
-        pre_print_r($query);
         $query->execute();        
     }
     
@@ -111,10 +110,6 @@ class AbModel {
         $query->bindValue("id", $id, \PDO::PARAM_INT);
         $query->execute();
         $row = $query->fetch(\PDO::FETCH_ASSOC);
-        if(! is_array($row)){
-            echo "throwing...";
-            throw new \RuntimeException("id must have a value");
-        }
         $this->populateFromArray($row);
     }
     
@@ -180,13 +175,5 @@ class AbModel {
         }
         
         return $res;
-    }
-    
-    public function toArray($excludes = array()){
-        $arr = $this->_fields;
-        foreach($excludes as $exclude){
-            unset($arr[$exclude]);
-        }
-        return $arr;
     }
 }

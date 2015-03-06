@@ -15,7 +15,7 @@ class Router {
     public static function route(\Request $request){
         $method = $request->getRequestMethod();
         $req = $request->getRequestedUri();
-        
+
         $routes = new \Config("routes");
         $routes = $routes->$method;
 
@@ -34,10 +34,6 @@ class Router {
         }
 
         $controller = new $controller();
-        $auth = new Authentication\Auth();
-        if($controller instanceof Controller\AbAuthController && !$auth->isLoggedIn()){
-            return array($controller, "checkLogin");
-        }
         return array($controller, $method);
     }
     

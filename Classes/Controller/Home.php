@@ -13,8 +13,9 @@ namespace Controller;
  *
  * @author phil
  */
-class Home {
-    public function home(\Request $req, \Response $res){
-        
+class Home extends AbAuthController{
+    public function home(\Request $req, \Response $res) {
+        $view = new \Output\View("home/menu");
+        $res->addView("content", $view);
     }
 }

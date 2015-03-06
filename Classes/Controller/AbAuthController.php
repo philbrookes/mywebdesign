@@ -12,13 +12,14 @@ namespace Controller;
  * @author phil
  */
 class AbAuthController extends AbController{
-    
-    public function checkLogin(\Request $req, \Response $res){
+    public function __construct(){
         //check if login is required first.
-        $auth = new \Authentication\Auth();
+        $auth = new \Authentication\Login();
 
         if(! $auth->isLoggedIn()){
-            $res->json(array("flash" => "You must login!"), "401");
+            $controller = new \Controller\Login();
+            echo $controller->LoginForm();
+            exit;
         } 
     }
 }

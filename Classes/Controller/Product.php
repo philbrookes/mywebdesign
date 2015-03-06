@@ -12,15 +12,12 @@ namespace Controller;
  * @author phil
  */
 class Product extends AbAuthController{
-    public function getProducts(\Request $req, \Response $res){
+    public function listProduct(\Request $req, \Response $res){
         $product = new \Model\Product();
         $products = $product->fetchAll();
-        
-        $result = Array();
-        foreach($products as $product){
-            $result[] = $product->toArray();
-        }
-        $res->Json($result);
+        $view = new \Output\View("product/list");
+        $view->products = $products;
+        $res->addView("content", $view);
     }
     
     public function editForm(\Request $req, \Response $res) {

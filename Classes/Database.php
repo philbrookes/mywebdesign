@@ -8,11 +8,11 @@ class Database {
     }
     
     private function connect($config){
-        $dsn = "mysql:host={$config['hostname']};dbname={$config['database']}";
+        $dsn = "mysql:host={$config->hostname};dbname={$config->database}";
         $options = array(
             PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8',
         );
-        return new PDO($dsn, $config['username'], $config['password'], $options);
+        return new PDO($dsn, $config->username, $config->password, $options);
     }
     
     public function prepareQuery($sql){
