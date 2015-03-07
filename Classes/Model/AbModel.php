@@ -103,6 +103,7 @@ class AbModel {
             $query->bindValue($name, $value);
         }
         $query->execute();
+        $this->id = $this->_db->lastInsertId();
     }
     
     public function loadFromDb($id) {

@@ -1,6 +1,7 @@
 <li class="grid_3x1 green">
     <p>
-        <?php if($this->invoice->paid_date == "0000-00-00 00:00:00") { ?>
+        Invoice# <?php echo $this->invoice->getCustomer()->id ?>-<?php echo $this->invoice->id + 100; ?> - 
+        <?php if($this->invoice->status == "unpaid") { ?>
         &euro;<?php echo $this->invoice->getTotal(); ?>
         due on: <?php echo $this->invoice->getDueDate("Y-m-d"); ?>
         <?php } else { ?>
@@ -11,12 +12,25 @@
 </li>
 <li class="grid_1x1 red">
     <a href="<?php 
-    echo \Router::controllerUrl(
-        "Controller\Invoice::viewInvoice", 
-        array(
-            "customer_id" => $this->invoice->getCustomer()->id,
-            "invoice_id" => $this->invoice->id
-        )
-    );
-    ?>">Delete</a>
+    if($this->invoice->status == "unpaid") {
+        echo \Router::controllerUrl(
+            "Controller\Invoice::invoicePaid", 
+            array(
+                "customer_id" => $this->invoice->getCustomer()->id,
+                "invoice_id" => $this->invoice->id
+            )
+        );
+        ?>">Mark Paid</a>
+    <?php 
+    } else {
+        echo \Router::controllerUrl(
+            "Controller\Invoice::invoiceUnpaid", 
+            array(
+                "customer_id" => $this->invoice->getCustomer()->id,
+                "invoice_id" => $this->invoice->id
+            )
+        );
+        ?>">Mark Unpaid</a><?php        
+    }
+    ?>
 </li>

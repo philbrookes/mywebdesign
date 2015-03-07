@@ -18,4 +18,8 @@ class Database {
     public function prepareQuery($sql){
         return $this->_conn->prepare($sql);
     }
+    
+    public function lastInsertId(){
+        return $this->_conn->lastInsertId();
+    }
 }
