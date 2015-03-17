@@ -50,4 +50,11 @@ class Invoice extends AbModel{
         }
         return date($format, strtotime($this->paid_date));
     }
+    
+    public function getOutputId(){
+        if($this->id <= 100){
+            return $this->id + 100;
+        }
+        return $this->id;
+    }
 }

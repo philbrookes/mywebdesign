@@ -6,7 +6,7 @@
                 "item_id" => $this->item->id
             )
         );
-        ?>"><?php echo $this->item->name; ?> due on: <?php echo $this->item->getBillDate("Y-m-d"); ?></a></li>
+        ?>"><?php echo $this->item->name; ?> &euro;<?php echo $this->item->getProduct()->price?> due on: <?php echo $this->item->getBillDate("Y-m-d"); ?></a></li>
 <li class="grid_1x1 red">
     <a href="<?php 
         echo \Router::controllerUrl(

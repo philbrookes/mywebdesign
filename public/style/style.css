@@ -1,12 +1,19 @@
-body {
+body, html {
     font-family: arial;
+    border: 0;
+    padding: 0;
+    margin: 0;
 }
 
 #content{
-    width: 960px;
+    width: 610px;
     margin: auto;
 }
 
+form {
+    width: 300px;
+    margin: auto;
+}
 form h3 {
     font-size: 15px;
     font-weight: 400;
@@ -70,19 +77,21 @@ ul.menu li{
 }
 ul.menu li.grid_1x1 {
     width: 146px;
-    height: 146px;
 }
 ul.menu li.grid_2x1 {
     width: 296px;
-    height: 146px;
+}
+ul.menu li.grid_3x1 {
+    width: 446px;
+}
+ul.menu li.grid_4x1 {
+    width: 596px;
 }
 ul.menu li.grid_1x2 {
     width: 146px;
-    height: 296px;
 }
 ul.menu li.grid_2x2 {
     width: 296px;
-    height: 296px;
 }
 ul.menu li.white{
     background-color: #ffffff;
@@ -148,19 +157,29 @@ ul.menu li p{
     display: block;
     text-align: center;
 }
-ul.menu li.grid_1x1 a, 
-ul.menu li.grid_1x1 p, 
-ul.menu li.grid_2x1 a, 
-ul.menu li.grid_2x1 p{
-    line-height: 150px;
+ul.menu li.grid_1x1 a,
+ul.menu li.grid_1x1 p,
+ul.menu li.grid_2x1 a,
+ul.menu li.grid_2x1 p,
+ul.menu li.grid_3x1 a,
+ul.menu li.grid_3x1 p,
+ul.menu li.grid_4x1 a,
+ul.menu li.grid_4x1 p{
+    line-height: 120px;
+    height: 116px;
 }
-ul.menu li.grid_1x2 a, 
-ul.menu li.grid_1x2 p, 
-ul.menu li.grid_2x2 a, 
+ul.menu li.grid_1x2 a,
+ul.menu li.grid_1x2 p,
+ul.menu li.grid_2x2 a,
 ul.menu li.grid_2x2 p{
-    line-height: 300px;
+    line-height: 240px;
+    height: 232px;
 }
 ul.menu li a:hover{
-    
+
     font-weight: bold;
+}
+
+ul.menu li.no-border{
+    border: 0;
 }

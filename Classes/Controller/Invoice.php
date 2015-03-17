@@ -13,7 +13,10 @@ namespace Controller;
  */
 class Invoice extends AbAuthController{
     public function viewInvoice(\Request $req, \Response $res){
-        
+        $invoice = new \Model\Invoice($req->param("invoice_id"));
+        $view = new \Output\View("invoice/details");
+        $view->invoice = $invoice;
+        $res->addView("content", $view);
     }
     
     public function invoicePaid(\Request $req, \Response $res){

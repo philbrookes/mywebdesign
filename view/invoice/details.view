@@ -1,0 +1,30 @@
+<div id="back to customer">
+    <ul class="menu">
+        <li class="grey grid_4x1"><a href="<?php 
+        echo \Router::controllerUrl(
+            "Controller\Customer::viewCustomer"
+            , array("id"=>$this->invoice->getCustomer()->id)
+        );?>">Back to <?php echo $this->invoice->getCustomer()->getFullName(); ?></a></li>
+    </ul>
+</div>
+
+<ul class="menu">
+    <li class="grid_2x1 white">
+        <img src="/images/mwdLogo.jpg" />
+    </li>
+    <li class="grid_1x1 white"><p>Total &euro;<?php echo $this->invoice->getTotal(); ?></p></li>
+    <li class="grid_1x1 white">
+        <p>Invoice #<?php echo $this->invoice->getCustomer()->id; ?>-<?php echo $this->invoice->getOutputId(); ?></p>
+    </li>
+    <?php foreach($this->invoice->getItems() as $item){
+        ?>
+    <li class="grid_3x1 white">
+        <p><?php echo $item->name; ?></p>
+    </li>
+    <li class="grid_1x1 white">
+        <p>&euro;<?php echo $item->amount; ?></p>
+    </li>
+        <?php
+    }
+    ?>
+</ul>

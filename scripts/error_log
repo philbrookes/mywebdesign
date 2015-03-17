@@ -1,0 +1,5 @@
+[19-Jun-2014 17:51:27] PHP Notice:  Undefined index: id in /home/ordersmy/Classes/Model/AbModel.php on line 52
+[19-Jun-2014 17:51:27] PHP Notice:  Undefined variable: fields in /home/ordersmy/Classes/Model/AbModel.php on line 94
+[19-Jun-2014 17:51:27] PHP Warning:  implode(): Invalid arguments passed in /home/ordersmy/Classes/Model/AbModel.php on line 94
+[19-Jun-2014 17:51:27] PHP Notice:  Undefined variable: values in /home/ordersmy/Classes/Model/AbModel.php on line 95
+[19-Jun-2014 17:51:27] PHP Warning:  implode(): Invalid arguments passed in /home/ordersmy/Classes/Model/AbModel.php on line 95
